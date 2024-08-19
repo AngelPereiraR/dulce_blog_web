@@ -20,11 +20,8 @@ export class ArticlesService {
 
   getArticles(): Observable<Article[]> {
     const url = `${this.baseUrl}/articles`;
-    const token = localStorage.getItem('token');
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get<Article[]>(url, { headers }).pipe(
+    return this.http.get<Article[]>(url).pipe(
       map((categorys) => {
         return categorys;
       }),
@@ -34,11 +31,8 @@ export class ArticlesService {
 
   getArticle(id: string): Observable<Article> {
     const url = `${this.baseUrl}/articles/${id}`;
-    const token = localStorage.getItem('token');
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get<Article>(url, { headers }).pipe(
+    return this.http.get<Article>(url).pipe(
       map((category) => {
         return category;
       }),

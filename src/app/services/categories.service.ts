@@ -20,11 +20,8 @@ export class CategoriesService {
 
   getCategories(): Observable<Category[]> {
     const url = `${this.baseUrl}/categories`;
-    const token = localStorage.getItem('token');
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get<Category[]>(url, { headers }).pipe(
+    return this.http.get<Category[]>(url).pipe(
       map((categories) => {
         return categories;
       }),
@@ -34,11 +31,8 @@ export class CategoriesService {
 
   getCategory(id: string): Observable<Category> {
     const url = `${this.baseUrl}/categories/${id}`;
-    const token = localStorage.getItem('token');
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get<Category>(url, { headers }).pipe(
+    return this.http.get<Category>(url).pipe(
       map((category) => {
         return category;
       }),

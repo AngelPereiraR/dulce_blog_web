@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .masonry {
+    column-count: 1; /* Default to 1 column */
+    column-gap: 1rem; /* Adjust according to your gap size */
+  }
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1rem; /* Adjust according to your gap size */
+  }
+  @screen md {
+    .masonry {
+      column-count: 3; /* 2 columns on medium screens and up */
+    }
+  }
+
+  .text-2xs {
+    font-size: 0.65rem;
+    line-height: 1rem;
+  }
+}

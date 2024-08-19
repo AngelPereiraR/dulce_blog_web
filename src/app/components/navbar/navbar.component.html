@@ -1,0 +1,47 @@
+<section class="my-10">
+  <h1 class="text-4xl lg:text-6xl text-white font-bold flex justify-center">
+    Dulce Blog
+  </h1>
+  <nav
+    class="text-black md:flex md:flex-row text-center items-center md:justify-between mt-10 p-5 bg-white rounded-3xl"
+  >
+    <div
+      *ngIf="!firstLoading"
+      class="font-bold flex flex-col md:flex-row text-center items-center"
+    >
+      <div
+        *ngFor="let category of categories()"
+        class="relative md:mr-10 text-xl bg-white p-5 rounded-xl underline hover:bg-black hover:text-white hover:shadow-xl hover:shadow-black transition-all duration-500"
+        (mouseover)="showSubcategories(category)"
+        (mouseleave)="scheduleHideSubcategories(category)"
+      >
+        <a [href]="category.slug">
+          {{ category.name }}
+        </a>
+        <nav
+          *ngIf="category.showSubcategories"
+          class="absolute top-full left-0 mt-2 p-2 z-50 bg-white rounded-xl shadow-lg inline-block"
+          (mouseover)="showSubcategories(category)"
+          (mouseleave)="scheduleHideSubcategories(category)"
+        >
+          <ul class="flex flex-col">
+            <li
+              *ngFor="let subcategory of category.subcategories"
+              class="text-black hover:underline px-4 py-2"
+            >
+              <a [href]="category.slug + '/' + subcategory.slug">
+                {{ subcategory.name }}
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div
+      *ngIf="firstLoading"
+      class="font-bold flex flex-col md:flex-row text-center items-center"
+    >
+      <p>Cargando categoría/s</p>
+    </div>
+  </nav>
+</section>

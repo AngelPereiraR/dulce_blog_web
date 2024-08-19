@@ -8,5 +8,5 @@ export interface Category {
   enabled: boolean;
   created_at: Date;
   updated_at: Date;
-  __v?: number;
+  showSubcategories: boolean;
 }

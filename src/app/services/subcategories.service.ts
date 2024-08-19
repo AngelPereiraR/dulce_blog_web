@@ -20,11 +20,8 @@ export class SubcategoriesService {
 
   getSubcategories(): Observable<Subcategory[]> {
     const url = `${this.baseUrl}/subcategories`;
-    const token = localStorage.getItem('token');
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get<Subcategory[]>(url, { headers }).pipe(
+    return this.http.get<Subcategory[]>(url).pipe(
       map((subcategories) => {
         return subcategories;
       }),
@@ -34,11 +31,8 @@ export class SubcategoriesService {
 
   getSubcategory(id: string): Observable<Subcategory> {
     const url = `${this.baseUrl}/subcategories/${id}`;
-    const token = localStorage.getItem('token');
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get<Subcategory>(url, { headers }).pipe(
+    return this.http.get<Subcategory>(url).pipe(
       map((subcategory) => {
         return subcategory;
       }),
