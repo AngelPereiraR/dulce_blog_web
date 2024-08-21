@@ -22,8 +22,8 @@ export class ArticlesService {
     const url = `${this.baseUrl}/articles`;
 
     return this.http.get<Article[]>(url).pipe(
-      map((categorys) => {
-        return categorys;
+      map((articles) => {
+        return articles;
       }),
       catchError((err) => throwError(() => err.error.message))
     );
@@ -33,9 +33,18 @@ export class ArticlesService {
     const url = `${this.baseUrl}/articles/${id}`;
 
     return this.http.get<Article>(url).pipe(
-      map((category) => {
-        return category;
+      map((article) => {
+        return article;
       }),
+      catchError((err) => throwError(() => err.error.message))
+    );
+  }
+
+  getArticlesBySubcategory(subcategorySlug: string): Observable<Article[]> {
+    const url = `${this.baseUrl}/articles?subcategorySlug=${subcategorySlug}`;
+
+    return this.http.get<Article[]>(url).pipe(
+      map((articles) => articles),
       catchError((err) => throwError(() => err.error.message))
     );
   }

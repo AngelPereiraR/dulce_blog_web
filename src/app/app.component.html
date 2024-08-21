@@ -1,4 +1,19 @@
 <div class="m-10">
-  <app-navbar></app-navbar>
-  <router-outlet></router-outlet>
+  <header class="flex justify-center">
+    <h1 class="sm:size-2/3">
+      <img
+        class="rounded-3xl"
+        src="principal-image.webp"
+        alt="Imagen principal del blog"
+      />
+    </h1>
+  </header>
+  <div class="flex flex-row mt-5">
+    <aside class="w-1/4 mr-5">
+      <app-navbar></app-navbar>
+    </aside>
+    <div class="w-3/4 ml-5">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>

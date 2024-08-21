@@ -9,4 +9,5 @@ export interface Category {
   created_at: Date;
   updated_at: Date;
   showSubcategories: boolean;
+  subcategoriesDisabled: boolean;
 }
