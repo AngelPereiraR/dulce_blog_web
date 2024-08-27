@@ -1,0 +1,72 @@
+<div
+  *ngIf="
+    (!elementNotFound || (category() && subcategory() && article())) && !loading
+  "
+  class="bg-black rounded-3xl p-5"
+>
+  <section>
+    <header>
+      <h2 class="font-bold text-white text-2xl">{{ article()!.title }}</h2>
+      <h3 class="font-bold text-white text-lg">{{ article()!.excerpt }}</h3>
+    </header>
+    <section class="mt-3">
+      <div
+        *ngIf="article()!.images.length === 1"
+        class="flex justify-center items-center"
+      >
+        <img
+          [src]="article()!.images[0]"
+          alt="Imagen"
+          class="h-60 xl:h-96 rounded-xl hover:scale-105 transition-all duration-500"
+        />
+      </div>
+
+      <div *ngIf="article()!.images.length !== 1">
+        <div class="flex justify-center items-center">
+          <carousel [images]="article()!.images"></carousel>
+        </div>
+      </div>
+    </section>
+    <section class="mt-5">
+      <header>
+        <h3 class="font-bold text-white text-xl">Contenido del artículo</h3>
+      </header>
+      <p class="text-white text-base">{{ article()!.content }}</p>
+    </section>
+    <section class="mt-5">
+      <header>
+        <h3 class="font-bold text-white text-xl">Creador del artículo</h3>
+      </header>
+      <p class="font-bold text-white text-base">{{ article()!.author }}</p>
+    </section>
+    <section class="mt-5">
+      <header>
+        <h3 class="font-bold text-white text-xl">
+          Subcategorías a las que pertenece
+        </h3>
+      </header>
+      <div>
+        <ul class="flex flex-col md:flex-row gap-4">
+          <li class="mt-5" *ngFor="let subcategory of article()!.subcategories">
+            <a
+              class="font-bold text-black bg-white hover:text-white hover:bg-slate-600 hover:shadow-white hover:shadow-lg rounded-3xl text-base p-3"
+              [href]="category()!.slug + '/' + subcategory.slug"
+            >
+              {{ subcategory.name }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </section>
+  <div class="flex justify-center mt-10">
+    <a
+      [href]="category()?.slug + '/' + subcategory()?.slug"
+      class="font-bold text-black bg-white text-lg p-3 mt-5 rounded-xl hover:bg-slate-600 hover:text-white hover:shadow-lg hover:shadow-white transition-all duration-500"
+      >Volver a ver todos los artículos de la subcategoría
+      {{ subcategory()?.name }}</a
+    >
+  </div>
+</div>
+<app-not-found *ngIf="elementNotFound && !loading"></app-not-found>
+<spinner *ngIf="loading"></spinner>

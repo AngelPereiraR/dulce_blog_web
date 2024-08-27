@@ -14,18 +14,6 @@
           >
             {{ category.name }}
           </a>
-          <ul>
-            <div *ngFor="let subcategory of category.subcategories">
-              <li *ngIf="subcategory.enabled">
-                <a
-                  [href]="category.slug + '/' + subcategory.slug"
-                  class="text-sm text-gray-400 hover:underline px-4 py-2"
-                >
-                  {{ subcategory.name }}
-                </a>
-              </li>
-            </div>
-          </ul>
         </li>
       </div>
     </ul>

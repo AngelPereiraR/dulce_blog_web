@@ -1,0 +1,47 @@
+<div
+  *ngIf="(!elementNotFound || category()) && !loading"
+  class="bg-black rounded-3xl p-5"
+>
+  <section>
+    <header>
+      <h2 class="font-bold text-white text-2xl">{{ category()!.name }}</h2>
+      <h3
+        *ngIf="!category()!.subcategoriesDisabled"
+        class="font-bold text-white text-xl mt-10"
+      >
+        Subcategorías
+      </h3>
+    </header>
+    <ul
+      *ngIf="!category()!.subcategoriesDisabled"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5"
+    >
+      <div *ngFor="let subcategory of category()!.subcategories">
+        <li *ngIf="subcategory.enabled">
+          <a
+            [href]="category()!.slug + '/' + subcategory.slug"
+            class="text-lg text-white hover:underline py-2"
+          >
+            {{ subcategory.name }}
+          </a>
+        </li>
+      </div>
+    </ul>
+    <p
+      *ngIf="category()!.subcategoriesDisabled"
+      class="font-bold text-white text-xl mt-10"
+    >
+      Esta categoría no tiene subcategorías disponibles. Esté atento/a a las
+      novedades.
+    </p>
+  </section>
+  <div class="flex justify-center">
+    <a
+      href="categories"
+      class="font-bold text-black bg-white text-lg p-3 mt-5 rounded-xl hover:bg-slate-600 hover:text-white hover:shadow-lg hover:shadow-white transition-all duration-500"
+      >Volver a ver todas las categorías</a
+    >
+  </div>
+</div>
+<app-not-found *ngIf="elementNotFound && !loading"></app-not-found>
+<spinner *ngIf="loading"></spinner>

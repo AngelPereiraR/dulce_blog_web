@@ -1,19 +1,22 @@
 <div class="m-10">
   <header class="flex justify-center">
     <h1 class="sm:size-2/3">
-      <img
-        class="rounded-3xl"
-        src="principal-image.webp"
-        alt="Imagen principal del blog"
-      />
+      <a href="">
+        <img
+          class="rounded-3xl hover:shadow-black hover:shadow-xl transition-all duration-500"
+          src="principal-image.webp"
+          alt="Imagen principal del blog"
+        />
+      </a>
     </h1>
   </header>
-  <div class="flex flex-row mt-5">
-    <aside class="w-1/4 mr-5">
+  <div class="flex flex-col-reverse lg:flex-row mt-5">
+    <aside class="w-full lg:w-1/4 mr-0 lg:mr-5 mt-5 lg:mt-0">
       <app-navbar></app-navbar>
     </aside>
-    <div class="w-3/4 ml-5">
+    <div class="w-full lg:w-3/4 ml-0 lg:ml-5">
       <router-outlet></router-outlet>
     </div>
   </div>
+  <app-footer></app-footer>
 </div>

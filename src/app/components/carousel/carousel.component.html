@@ -1,0 +1,38 @@
+<div class="flex flex-col justify-center items-center">
+  <div class="relative">
+    <img
+      [src]="images[currentImageIndex]"
+      alt="Imagen"
+      class="h-60 xl:h-96 rounded-xl hover:scale-105 transition-all duration-500"
+    />
+
+    <button
+      class="absolute bottom-0 -translate-y-4 left-2 lg:left-4 bg-gray-500 hover:bg-gray-700 rounded-full p-2 text-white"
+      (click)="previousImage()"
+    >
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <button
+      class="absolute bottom-0 -translate-y-4 right-2 lg:right-4 bg-gray-500 hover:bg-gray-700 rounded-full p-2 text-white"
+      (click)="nextImage()"
+    >
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <ul class="flex justify-center mt-4">
+    <div *ngFor="let image of images; let i = index">
+      <li
+        *ngIf="currentImageIndex === i"
+        class="w-4 h-4 rounded-full bg-gray-600 cursor-pointer mx-0.5"
+        (click)="currentImageIndex = i"
+      ></li>
+      <li
+        *ngIf="currentImageIndex !== i"
+        class="w-4 h-4 rounded-full bg-gray-300 cursor-pointer mx-0.5"
+        (click)="currentImageIndex = i"
+      ></li>
+    </div>
+  </ul>
+</div>

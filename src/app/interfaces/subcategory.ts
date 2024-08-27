@@ -9,4 +9,5 @@ export interface Subcategory {
   updated_at: Date;
   articles: Article[];
   showArticles: boolean;
+  articlesDisabled: boolean;
 }

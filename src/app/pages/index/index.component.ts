@@ -10,11 +10,8 @@ import {
   type OnInit,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Category, Subcategory } from '../../interfaces';
+import { Category } from '../../interfaces';
 import { CategoriesService } from '../../services/categories.service';
-import { SubcategoriesService } from '../../services/subcategories.service';
-import { ArticlesService } from '../../services/articles.service';
-import { Article } from '../../interfaces/article';
 
 @Component({
   selector: 'app-index',
