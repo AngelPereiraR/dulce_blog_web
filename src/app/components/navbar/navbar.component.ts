@@ -1,15 +1,16 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CategoriesService } from '../../services/categories.service';
-import { Category, Subcategory } from '../../interfaces';
+import { Article, Category } from '../../interfaces';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { CommonModule } from '@angular/common';
 import { ArticlesService } from '../../services/articles.service';
-import { SubcategoriesService } from '../../services/subcategories.service';
+import { NavigationEnd, Router } from '@angular/router';
+import { ReproductorComponent } from '../reproductor/reproductor.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, SpinnerComponent],
+  imports: [CommonModule, SpinnerComponent, ReproductorComponent],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit {
@@ -17,11 +18,27 @@ export class NavbarComponent implements OnInit {
   private _categories = signal<Category[] | undefined>(undefined);
   public categories = computed(() => this._categories());
   private articlesService = inject(ArticlesService);
-  private subcategoriesService = inject(SubcategoriesService);
   public loading = false;
   public firstLoading = true;
+  public resultadosBusqueda: Article[] = [];
 
-  constructor() {
+  musicPlayerState = {
+    playing: false,
+    currentSong: '',
+  };
+
+  routeChange() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Evita que el reproductor se reinicie cuando se cambia de ruta
+        if (this.musicPlayerState.playing) {
+          this.musicPlayerState.playing = true;
+        }
+      }
+    });
+  }
+
+  constructor(private router: Router) {
     this.getCategories();
   }
 
@@ -97,6 +114,34 @@ export class NavbarComponent implements OnInit {
         !categories[categoryIndex].subcategories![subcategoryIndex]
           .showArticles;
       this._categories.set([...categories]);
+    }
+  }
+
+  buscarArticulos(busqueda: string) {
+    this.loading = true;
+    this.articlesService.getArticles().subscribe({
+      next: (articles) => {
+        this.resultadosBusqueda = articles.filter(
+          (article) =>
+            article.title.toLowerCase().includes(busqueda.toLowerCase()) &&
+            article.enabled &&
+            article.published_at
+        );
+      },
+      error: () => {
+        this.loading = false;
+        this.resultadosBusqueda = [];
+      },
+      complete: () => {
+        this.loading = false;
+      },
+    });
+  }
+
+  buscarArticulosEnter(event: KeyboardEvent, busqueda: string) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.buscarArticulos(busqueda);
     }
   }
 }

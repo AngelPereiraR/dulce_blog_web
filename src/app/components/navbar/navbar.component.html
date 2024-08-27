@@ -2,6 +2,46 @@
   <nav class="text-white p-5 bg-black rounded-3xl">
     <div *ngIf="!firstLoading" class="font-bold flex flex-col">
       <h2 class="text-3xl font-bold mb-5">Archivo</h2>
+      <form class="flex flex-wrap justify-center mb-5 gap-3">
+        <input
+          #busqueda
+          type="text"
+          placeholder="Buscar artículos..."
+          class="w-full lg:w-1/2 px-4 py-2 text-lg text-gray-700 rounded-xl"
+          (keydown)="buscarArticulosEnter($event, busqueda.value)"
+        />
+        <button
+          *ngIf="!loading"
+          type="button"
+          (click)="buscarArticulos(busqueda.value)"
+          class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-3xl transition-all duration-300"
+        >
+          Buscar
+        </button>
+        <button
+          *ngIf="loading"
+          type="button"
+          class="bg-orange-700 text-white font-bold py-2 px-4 rounded-3xl transition-all duration-300"
+          disabled
+        >
+          <spinner></spinner>
+        </button>
+      </form>
+      <ul
+        *ngIf="resultadosBusqueda.length"
+        class="flex flex-col justify-center items-center list-none mb-0 m-5 p-5 bg-white rounded-xl border-4 border-blue-600"
+      >
+        <h2 class="font-bold text-lg text-center text-black">
+          Resultados de la búsqueda
+        </h2>
+        <li *ngFor="let articulo of resultadosBusqueda" class="mt-2">
+          <a
+            [href]="articulo.slug"
+            class="text-gray-600 hover:text-gray-900 hover:underline"
+            >{{ articulo.title }}</a
+          >
+        </li>
+      </ul>
       <ng-container *ngFor="let category of categories(); let i = index">
         <div
           class="relative text-xl p-5 m-5 rounded-xl hover:bg-white hover:text-black hover:shadow-xl hover:shadow-black transition-all duration-500"
