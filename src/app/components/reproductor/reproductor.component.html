@@ -4,13 +4,15 @@
       <i *ngIf="audioService.getIsPlaying()" class="fa fa-pause"></i>
       <i *ngIf="!audioService.getIsPlaying()" class="fa fa-play"></i>
     </button>
-    <span class="ml-3">{{ audioService.getCurrentTrack() }}</span>
+    <span *ngIf="!firstLoading" class="ml-3 text-sm">
+      {{ currentTime }} / {{ duration }} - {{ audioService.getCurrentTrack() }}
+    </span>
+    <span *ngIf="firstLoading">
+      <spinner></spinner>
+    </span>
   </div>
   <div class="mt-4 flex items-center justify-between">
-    <button
-      (click)="decreaseVolume()"
-      class="px-4 py-2 bg-gray-600 rounded-full"
-    >
+    <button (click)="decreaseVolume()" class="p-2 bg-gray-600 rounded-full">
       <i class="fa fa-volume-down"></i>
     </button>
     <input
@@ -22,10 +24,7 @@
       (input)="onVolumeChange($event)"
       class="mx-3 w-full"
     />
-    <button
-      (click)="increaseVolume()"
-      class="px-4 py-2 bg-gray-600 rounded-full"
-    >
+    <button (click)="increaseVolume()" class="p-2 bg-gray-600 rounded-full">
       <i class="fa fa-volume-up"></i>
     </button>
   </div>

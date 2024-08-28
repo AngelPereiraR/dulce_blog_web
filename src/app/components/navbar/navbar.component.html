@@ -8,12 +8,12 @@
           type="text"
           placeholder="Buscar artículos..."
           class="w-full lg:w-1/2 px-4 py-2 text-lg text-gray-700 rounded-xl"
-          (keydown)="buscarArticulosEnter($event, busqueda.value)"
+          (keydown)="searchArticlesEnter($event, busqueda.value)"
         />
         <button
           *ngIf="!loading"
           type="button"
-          (click)="buscarArticulos(busqueda.value)"
+          (click)="searchArticles(busqueda.value)"
           class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-3xl transition-all duration-300"
         >
           Buscar
@@ -36,7 +36,13 @@
         </h2>
         <li *ngFor="let articulo of resultadosBusqueda" class="mt-2">
           <a
-            [href]="articulo.slug"
+            [href]="
+              generateUrl(
+                articulo.category,
+                articulo.subcategory,
+                articulo.slug
+              )
+            "
             class="text-gray-600 hover:text-gray-900 hover:underline"
             >{{ articulo.title }}</a
           >

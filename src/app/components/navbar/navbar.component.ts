@@ -20,7 +20,8 @@ export class NavbarComponent implements OnInit {
   private articlesService = inject(ArticlesService);
   public loading = false;
   public firstLoading = true;
-  public resultadosBusqueda: Article[] = [];
+  public resultadosBusqueda: any[] = [];
+  private _allCategories: Category[] = [];
 
   musicPlayerState = {
     playing: false,
@@ -40,6 +41,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(private router: Router) {
     this.getCategories();
+    this.routeChange();
   }
 
   ngOnInit(): void {}
@@ -64,6 +66,7 @@ export class NavbarComponent implements OnInit {
           }));
 
         this._categories.set(categoryList);
+        this._allCategories = categoryList; // Guarda todas las categorías para búsquedas
       },
       error: () => {
         this.loading = false;
@@ -117,16 +120,63 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  buscarArticulos(busqueda: string) {
+  searchArticles(busqueda: string) {
     this.loading = true;
     this.articlesService.getArticles().subscribe({
       next: (articles) => {
-        this.resultadosBusqueda = articles.filter(
+        const filteredArticles = articles.filter(
           (article) =>
             article.title.toLowerCase().includes(busqueda.toLowerCase()) &&
             article.enabled &&
             article.published_at
         );
+
+        // Mapea los artículos con su categoría y subcategoría
+        this.resultadosBusqueda = filteredArticles.map((article) => {
+          let category;
+          let subcategory;
+
+          for (let i = 0; i < this._allCategories.length; i++) {
+            if (this._allCategories[i].subcategories) {
+              for (
+                let j = 0;
+                j < this._allCategories[i].subcategories!.length;
+                j++
+              ) {
+                this.getArticles(
+                  this._allCategories[i].subcategories![j].slug,
+                  i,
+                  j
+                );
+              }
+            }
+          }
+
+          for (let i = 0; i < this.categories()!.length; i++) {
+            if (this.categories()![i].subcategories) {
+              for (
+                let j = 0;
+                j < this.categories()![i].subcategories!.length;
+                j++
+              ) {
+                if (
+                  this.categories()![i].subcategories![j].slug ===
+                  article.subcategories![0].slug
+                ) {
+                  category = this.categories()![i];
+                  subcategory = this.categories()![i].subcategories![j];
+                  break;
+                }
+              }
+            }
+          }
+
+          return {
+            ...article,
+            category: category?.slug,
+            subcategory: subcategory?.slug,
+          };
+        });
       },
       error: () => {
         this.loading = false;
@@ -138,10 +188,25 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  buscarArticulosEnter(event: KeyboardEvent, busqueda: string) {
+  searchArticlesEnter(event: KeyboardEvent, busqueda: string) {
     if (event.key === 'Enter') {
       event.preventDefault();
-      this.buscarArticulos(busqueda);
+      this.searchArticles(busqueda);
     }
+  }
+
+  generateUrl(
+    categorySlug: string,
+    subcategorySlug?: string,
+    articleSlug?: string
+  ): string {
+    let url = `/${categorySlug}`;
+    if (subcategorySlug) {
+      url += `/${subcategorySlug}`;
+    }
+    if (articleSlug) {
+      url += `/${articleSlug}`;
+    }
+    return url;
   }
 }

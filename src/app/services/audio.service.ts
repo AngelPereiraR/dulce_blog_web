@@ -7,7 +7,6 @@ export class AudioService {
   private audio = new Audio();
   private isPlaying = false;
   private currentTrack = '';
-  private currentTime = 0;
 
   constructor() {
     // Restaurar el volumen desde el localStorage si está disponible
@@ -15,8 +14,10 @@ export class AudioService {
     this.audio.volume = savedVolume ? parseFloat(savedVolume) : 0.35; // El valor predeterminado es 1.0 (volumen máximo)
 
     this.audio.addEventListener('timeupdate', () => {
-      this.currentTime = this.audio.currentTime;
-      localStorage.setItem('audioCurrentTime', this.currentTime.toString());
+      localStorage.setItem(
+        'audioCurrentTime',
+        this.audio.currentTime.toString()
+      );
     });
 
     this.audio.addEventListener('ended', () => {
@@ -49,7 +50,11 @@ export class AudioService {
   }
 
   getCurrentTime() {
-    return this.currentTime;
+    return this.audio.currentTime;
+  }
+
+  getDuration(): number {
+    return this.audio.duration;
   }
 
   resumeTrack() {
