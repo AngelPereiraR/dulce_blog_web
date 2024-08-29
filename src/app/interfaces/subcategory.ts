@@ -10,4 +10,5 @@ export interface Subcategory {
   articles: Article[];
   showArticles: boolean;
   articlesDisabled: boolean;
+  orderNumber: number;
 }

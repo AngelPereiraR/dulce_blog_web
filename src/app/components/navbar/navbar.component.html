@@ -36,13 +36,7 @@
         </h2>
         <li *ngFor="let articulo of resultadosBusqueda" class="mt-2">
           <a
-            [href]="
-              generateUrl(
-                articulo.category,
-                articulo.subcategory,
-                articulo.slug
-              )
-            "
+            [href]="articulo.slug"
             class="text-gray-600 hover:text-gray-900 hover:underline"
             >{{ articulo.title }}</a
           >
@@ -66,9 +60,9 @@
                 }"
               ></i>
             </button>
-            <a class="ml-3 hover:underline" [href]="category.slug">
+            <p class="ml-3">
               {{ category.name }}
-            </a>
+            </p>
           </div>
           <ul *ngIf="category.showSubcategories" class="mt-3">
             <div
@@ -90,23 +84,14 @@
                     }"
                   ></i>
                 </button>
-                <a
-                  [href]="category.slug + '/' + subcategory.slug"
-                  class="text-base text-gray-600 hover:underline px-4 py-2"
-                >
+                <p class="text-base inline text-gray-600 px-4 py-2">
                   {{ subcategory.name }}
-                </a>
+                </p>
                 <ul *ngIf="subcategory.showArticles">
                   <div *ngFor="let article of subcategory.articles">
                     <li *ngIf="article.enabled && article.published_at">
                       <a
-                        [href]="
-                          category.slug +
-                          '/' +
-                          subcategory.slug +
-                          '/' +
-                          article.slug
-                        "
+                        [href]="article.slug"
                         class="text-base text-blue-600 hover:underline px-14 py-3"
                       >
                         {{ article.title }}

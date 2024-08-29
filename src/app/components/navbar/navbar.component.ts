@@ -63,7 +63,8 @@ export class NavbarComponent implements OnInit {
               })),
 
             showSubcategories: false,
-          }));
+          }))
+          .sort((a, b) => a.orderNumber - b.orderNumber);
 
         this._categories.set(categoryList);
         this._allCategories = categoryList; // Guarda todas las categorías para búsquedas
@@ -86,6 +87,7 @@ export class NavbarComponent implements OnInit {
   ) {
     this.articlesService.getArticlesBySubcategory(subcategorySlug).subscribe({
       next: (articles) => {
+        articles.sort((a, b) => a.orderNumber - b.orderNumber);
         const categories = this._categories();
         if (categories) {
           categories[categoryIndex].subcategories![subcategoryIndex].articles =
@@ -124,12 +126,14 @@ export class NavbarComponent implements OnInit {
     this.loading = true;
     this.articlesService.getArticles().subscribe({
       next: (articles) => {
-        const filteredArticles = articles.filter(
-          (article) =>
-            article.title.toLowerCase().includes(busqueda.toLowerCase()) &&
-            article.enabled &&
-            article.published_at
-        );
+        const filteredArticles = articles
+          .filter(
+            (article) =>
+              article.title.toLowerCase().includes(busqueda.toLowerCase()) &&
+              article.enabled &&
+              article.published_at
+          )
+          .sort((a, b) => a.orderNumber - b.orderNumber);
 
         // Mapea los artículos con su categoría y subcategoría
         this.resultadosBusqueda = filteredArticles.map((article) => {

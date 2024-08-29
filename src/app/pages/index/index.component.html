@@ -1,29 +1,74 @@
 <div class="bg-black rounded-3xl p-5">
   <section>
     <header>
-      <h2 class="font-bold text-white text-2xl">Principales categorías</h2>
+      <h2 class="font-bold text-white text-2xl">Última publicación</h2>
     </header>
-    <ul
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-    >
-      <div *ngFor="let category of categories(); let i = index">
-        <li *ngIf="i < 4" class="mt-5 mx-2">
-          <a
-            [href]="category.slug"
-            class="text-lg font-semibold text-white hover:underline px-4 py-2"
+    <div *ngIf="article() && !loading" class="bg-black rounded-3xl p-5">
+      <section>
+        <header>
+          <h2 class="font-bold text-white text-2xl">
+            {{ article()!.title }}
+          </h2>
+          <h3 class="font-bold text-white text-lg">
+            {{ article()!.excerpt }}
+          </h3>
+        </header>
+        <section class="mt-3">
+          <div
+            *ngIf="article()!.images.length === 1"
+            class="flex justify-center items-center"
           >
-            {{ category.name }}
-          </a>
-        </li>
-      </div>
-    </ul>
-    <div *ngIf="categories()?.length! > 4" class="flex justify-center mt-5">
-      <a
-        href="categories"
-        class="px-4 py-2 font-bold bg-white text-black rounded-xl hover:bg-gray-600 hover:shadow-lg hover:shadow-black transition-all duration-500"
-      >
-        Ver todas las categorías
-      </a>
+            <img
+              [src]="article()!.images[0]"
+              alt="Imagen"
+              class="h-60 xl:h-96 rounded-xl hover:scale-105 transition-all duration-500"
+            />
+          </div>
+
+          <div *ngIf="article()!.images.length !== 1">
+            <div class="flex justify-center items-center">
+              <carousel [images]="article()!.images"></carousel>
+            </div>
+          </div>
+        </section>
+        <section class="mt-5">
+          <header>
+            <h3 class="font-bold text-white text-xl">Contenido del artículo</h3>
+          </header>
+          <p class="text-white text-base">{{ article()!.content }}</p>
+        </section>
+        <section class="mt-5">
+          <header>
+            <h3 class="font-bold text-white text-xl">Creador del artículo</h3>
+          </header>
+          <p class="font-bold text-white text-base">
+            {{ article()!.author }}
+          </p>
+        </section>
+        <section class="mt-5">
+          <header>
+            <h3 class="font-bold text-white text-xl">
+              Subcategorías a las que pertenece
+            </h3>
+          </header>
+          <div>
+            <ul class="flex flex-col md:flex-row gap-4">
+              <li
+                class="mt-5"
+                *ngFor="let subcategory of article()!.subcategories"
+              >
+                <p
+                  class="font-bold text-black bg-white hover:text-white hover:bg-slate-600 hover:shadow-white hover:shadow-lg rounded-3xl text-base p-3"
+                >
+                  {{ subcategory.name }}
+                </p>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </section>
     </div>
+
+    <spinner *ngIf="loading"></spinner>
   </section>
 </div>

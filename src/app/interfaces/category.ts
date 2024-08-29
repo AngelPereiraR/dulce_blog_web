@@ -10,4 +10,5 @@ export interface Category {
   updated_at: Date;
   showSubcategories: boolean;
   subcategoriesDisabled: boolean;
+  orderNumber: number;
 }
