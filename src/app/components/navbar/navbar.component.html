@@ -46,8 +46,8 @@
         <div
           class="relative text-xl p-5 m-5 rounded-xl hover:bg-white hover:text-black hover:shadow-xl hover:shadow-black transition-all duration-500"
         >
-          <div class="flex items-center">
-            <button (click)="toggleSubcategories(i)">
+          <div class="flex items-center" (click)="toggleSubcategories(i)">
+            <button>
               <i
                 class="fa"
                 [ngClass]="{
@@ -68,14 +68,15 @@
             <div
               *ngFor="let subcategory of category.subcategories; let j = index"
             >
-              <li *ngIf="subcategory.enabled">
-                <button
-                  (click)="
-                    subcategory.showArticles
-                      ? toggleArticles(i, j)
-                      : getArticles(subcategory.slug, i, j)
-                  "
-                >
+              <li
+                *ngIf="subcategory.enabled"
+                (click)="
+                  subcategory.showArticles
+                    ? toggleArticles(i, j)
+                    : getArticles(subcategory.slug, i, j)
+                "
+              >
+                <button>
                   <i
                     class="fa"
                     [ngClass]="{
