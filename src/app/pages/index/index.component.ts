@@ -44,7 +44,7 @@ export class IndexComponent implements OnInit {
   getArticles(): void {
     this.articlesService.getArticles().subscribe({
       next: (articles) => {
-        articles.sort((a, b) => a.orderNumber - b.orderNumber);
+        articles.sort((a, b) => b.orderNumber - a.orderNumber);
         for (let article of articles) {
           if (article.enabled && article.published_at) {
             this._article.set(article);
