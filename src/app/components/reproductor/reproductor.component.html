@@ -1,8 +1,8 @@
 <div class="text-white p-5 mb-5 bg-black rounded-3xl">
   <div class="flex items-center justify-between">
-    <button (click)="togglePlayPause()">
-      <i *ngIf="audioService.getIsPlaying()" class="fa fa-pause"></i>
-      <i *ngIf="!audioService.getIsPlaying()" class="fa fa-play"></i>
+    <button (click)="togglePlayPause()" class="flex items-center justify-center">
+      <span *ngIf="audioService.getIsPlaying()" class="material-icons flex items-center justify-center">pause</span>
+      <span *ngIf="!audioService.getIsPlaying()" class="material-icons flex items-center justify-center">play_arrow</span>
     </button>
     <span *ngIf="!firstLoading" class="ml-3 text-sm">
       {{ currentTime }} / {{ duration }} - {{ audioService.getCurrentTrack() }}
@@ -12,8 +12,8 @@
     </span>
   </div>
   <div class="mt-4 flex items-center justify-between">
-    <button (click)="decreaseVolume()" class="p-2 bg-gray-600 rounded-full">
-      <i class="fa fa-volume-down"></i>
+    <button (click)="decreaseVolume()" class="p-2 bg-gray-600 rounded-full flex items-center justify-center">
+      <span class="material-icons flex items-center justify-center">volume_down</span>
     </button>
     <input
       type="range"
@@ -24,8 +24,8 @@
       (input)="onVolumeChange($event)"
       class="mx-3 w-full"
     />
-    <button (click)="increaseVolume()" class="p-2 bg-gray-600 rounded-full">
-      <i class="fa fa-volume-up"></i>
+    <button (click)="increaseVolume()" class="p-2 bg-gray-600 rounded-full flex items-center justify-center">
+      <span class="material-icons flex items-center justify-center">volume_up</span>
     </button>
   </div>
 </div>
